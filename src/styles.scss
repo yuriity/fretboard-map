@@ -1,4 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
+@import './styles-responsive';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.main-container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 16px;
+  padding-left: 16px;
+
+  h1.title {
+    margin: 20px 0;
+  }
+
+  @include for-size($size-phone-only) {
+    max-width: 540px;
+  }
+
+  @include for-size($size-tablet-portrait-up) {
+    max-width: 720px;
+  }
+
+  @include for-size($size-tablet-landscape-up) {
+    max-width: 960px;
+  }
+
+  @include for-size($size-desktop-up) {
+    max-width: 1140px;
+  }
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
