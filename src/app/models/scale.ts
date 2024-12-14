@@ -12,22 +12,18 @@ export class Scale {
       return;
     }
 
-    let rootNoteIndex = -1;
-    for (let i = 0; i < 12; i++) {
-      if (ChromaticScale[i].name === rootNoteName) {
-        rootNoteIndex = i;
-        break;
-      }
-    }
-
-    if (rootNoteIndex == -1) {
+    const rootNoteIndex = ChromaticScale.findIndex(
+      (note) => note.name === rootNoteName
+    );
+    if (rootNoteIndex === -1) {
       throw new Error(`Invalid root note: ${rootNoteName}`);
     }
 
+    this.scaleNotes = [ChromaticScale[rootNoteIndex].name];
     let noteIndex = rootNoteIndex;
-    this.scaleNotes.push(ChromaticScale[noteIndex].name);
-    for (let i = 0; i < this.scaleIntervals.length; i++) {
-      noteIndex += this.scaleIntervals[i];
+
+    for (const interval of this.scaleIntervals) {
+      noteIndex = (noteIndex + interval) % 12;
       this.scaleNotes.push(ChromaticScale[noteIndex].name);
     }
   }
