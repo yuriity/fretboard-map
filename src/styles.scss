@@ -1,4 +1,4 @@
-@import './styles-responsive';
+@use './styles-responsive' as responsive;
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -13,19 +13,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin: 20px 0;
   }
 
-  @include for-size($size-phone-only) {
+  @include responsive.for-size(responsive.$size-phone-only) {
     max-width: 540px;
   }
 
-  @include for-size($size-tablet-portrait-up) {
+  @include responsive.for-size(responsive.$size-tablet-portrait-up) {
     max-width: 720px;
   }
 
-  @include for-size($size-tablet-landscape-up) {
+  @include responsive.for-size(responsive.$size-tablet-landscape-up) {
     max-width: 960px;
   }
 
-  @include for-size($size-desktop-up) {
+  @include responsive.for-size(responsive.$size-desktop-up) {
     max-width: 1140px;
   }
 }
