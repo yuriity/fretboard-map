@@ -35,10 +35,16 @@ export class SettingsService {
     viewOption: this.defaultFretboardViewOption,
     fretboards: [
       {
-        title: 'Fretboard 1',
+        title: 'Standard E',
         tuning: this.defaultTuning,
         rootNote: this.defaultRootNote,
         scale: this.defaultScale,
+      },
+      {
+        title: 'Drop D',
+        tuning: 'E4,B3,G3,D3,A2,D2',
+        rootNote: 'D',
+        scale: 'Minor Scale',
       },
     ],
   };

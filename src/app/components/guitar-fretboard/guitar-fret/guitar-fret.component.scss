@@ -1,0 +1,87 @@
+$border-color: grey;
+$border-color-dim: dimgrey;
+$background-color: #f8f9fa;
+$active-note-background: #74EBD5;
+$root-note-background: #FFBBEC;
+
+div.fret-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+div.background {
+  position: absolute;
+  z-index: 0;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  background-color: $background-color;
+}
+
+div.background.default {
+  border-color: $border-color;
+  border-style: solid;
+  border-width: 0px 3px 0 0;
+}
+
+div.background.zero {
+  border-color: $border-color;
+  border-style: solid;
+  border-width: 0px 5px 0 0;
+}
+
+div.background.twelves {
+  border-color: $border-color;
+  border-style: solid;
+  border-width: 0px 5px 0 0;
+}
+
+.top-box {
+  height: 50%;
+}
+
+.top-box.default {
+  border-color: $border-color;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+}
+
+.top-box.twelves {
+  border-color: $border-color;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+}
+
+div.note-mark {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+  margin: 4px;
+
+  border: 2px solid #666;
+  color: rgb(var(--bs-body-color-rgb));
+
+  font-size: 14px;
+
+  &.active-note {
+    border-radius: 50%;
+    background-color: $active-note-background;
+  }
+
+  &.root-note {
+    border-radius: 0%;
+    background-color: $root-note-background;
+  }
+
+  &.hidden-note {
+    visibility: hidden;
+  }
+}

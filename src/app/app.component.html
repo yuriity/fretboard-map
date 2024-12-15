@@ -15,17 +15,32 @@
     </mat-toolbar>
   </header>
   <main class="main">
-    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-      @for (fretboard of settings.fretboards(); track fretboard.title()) {
-        <mat-tab label="{{ fretboard.title() }}">
-          <div class="main-container">
-            Tuning: {{ fretboard.tuning() }} <br>
-            Root Note: {{ fretboard.rootNote() }} <br>
-            Scale: {{ fretboard.scale() }} <br>
-          </div>
-        </mat-tab>
-      }
-    </mat-tab-group>
+    <div class="main-container">
+      <mat-accordion class="accordion-headers-align">
+        @for (fretboard of settings.fretboards(); track fretboard.title()) {
+          <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
+            <mat-expansion-panel-header>
+              <mat-panel-title> {{ fretboard.title() }} </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div>
+              Tuning: {{ fretboard.tuning() }} <br>
+              Root Note: {{ fretboard.rootNote() }} <br>
+              Scale: {{ fretboard.scale() }} <br>
+            </div>
+
+            <mat-action-row>
+              <button mat-icon-button aria-label="Edit fretboard title">
+                <mat-icon matTooltip="Edit fretboard title">edit</mat-icon>
+              </button>
+              <button mat-icon-button aria-label="Delete fretboard">
+                <mat-icon matTooltip="Delete fretboard">delete</mat-icon>
+              </button>
+            </mat-action-row>
+          </mat-expansion-panel>
+        }
+      </mat-accordion>
+    </div>
   </main>
 </div>
 

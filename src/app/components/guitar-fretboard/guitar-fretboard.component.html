@@ -1,0 +1,120 @@
+@if (settings.selectedFretboardViewOption() === ViewOptions.TwentyFourFrets) {
+  <table>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>3</th>
+      <th></th>
+      <th>5</th>
+      <th></th>
+      <th>7</th>
+      <th></th>
+      <th>9</th>
+      <th></th>
+      <th></th>
+      <th>12</th>
+      <th></th>
+      <th></th>
+      <th>15</th>
+      <th></th>
+      <th>17</th>
+      <th></th>
+      <th>19</th>
+      <th></th>
+      <th>21</th>
+      <th></th>
+      <th></th>
+      <th>24</th>
+    </tr>
+    @for (string of markupService.fretboard.strings; track string) {
+      <tr>
+        @for (fret of string.frets; track fret.note.id) {
+          <td>
+            <fbm-guitar-fret [fret]="fret"></fbm-guitar-fret>
+          </td>
+        }
+      </tr>
+    }
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th><i class="bi bi-circle-fill"></i></th>
+      <th></th>
+      <th><i class="bi bi-circle-fill"></i></th>
+      <th></th>
+      <th><i class="bi bi-circle-fill"></i></th>
+      <th></th>
+      <th><i class="bi bi-circle-fill"></i></th>
+      <th></th>
+      <th></th>
+      <th>
+        <i class="bi bi-circle-fill"></i>
+        <i class="bi bi-circle-fill"></i>
+      </th>
+      <th></th>
+      <th></th>
+      <th><i class="bi bi-circle-fill"></i></th>
+      <th></th>
+      <th><i class="bi bi-circle-fill"></i></th>
+      <th></th>
+      <th><i class="bi bi-circle-fill"></i></th>
+      <th></th>
+      <th><i class="bi bi-circle-fill"></i></th>
+      <th></th>
+      <th></th>
+      <th>
+        <i class="bi bi-circle-fill"></i>
+        <i class="bi bi-circle-fill"></i>
+      </th>
+    </tr>
+  </table>
+} @else if (settings.selectedFretboardViewOption() === ViewOptions.TwelveFrets) {
+  <table>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>3</th>
+      <th></th>
+      <th>5</th>
+      <th></th>
+      <th>7</th>
+      <th></th>
+      <th>9</th>
+      <th></th>
+      <th></th>
+      <th>12</th>
+    </tr>
+    @for (string of markupService.fretboard.strings; track string) {
+      <tr>
+        @for (fret of string.frets; track fret.note.id; let idx = $index) {
+          @if (idx < 13) {
+            <td>
+              <fbm-guitar-fret [fret]="fret"></fbm-guitar-fret>
+            </td>
+          }
+        }
+      </tr>
+    }
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th><i class="bi bi-circle-fill"></i></th>
+      <th></th>
+      <th><i class="bi bi-circle-fill"></i></th>
+      <th></th>
+      <th><i class="bi bi-circle-fill"></i></th>
+      <th></th>
+      <th><i class="bi bi-circle-fill"></i></th>
+      <th></th>
+      <th></th>
+      <th>
+        <i class="bi bi-circle-fill"></i>
+        <i class="bi bi-circle-fill"></i>
+      </th>
+    </tr>
+  </table>
+}

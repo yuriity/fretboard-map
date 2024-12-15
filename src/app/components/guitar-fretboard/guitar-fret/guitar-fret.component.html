@@ -1,0 +1,8 @@
+<div class="fret-container">
+  <div [ngClass]="['background', fret.fretClass]">
+    <div [ngClass]="['top-box', fret.fretClass]"></div>
+    <div [ngClass]="['bottom-box', fret.fretClass]"></div>
+    <div [ngClass]="['fret', fret.fretClass]"></div>
+  </div>
+  <div [ngClass]="['note-mark', fret.noteState]">{{ fret.note.name | uppercase }}</div>
+</div>
