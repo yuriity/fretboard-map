@@ -1,4 +1,4 @@
-import { effect, Injectable, signal, WritableSignal } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 
 import { ChromaticScale } from '../models/notes';
 import { ScaleFormulas } from '../models/scale-formulas';
@@ -9,15 +9,16 @@ export interface FretboardSettings {
   tuning: WritableSignal<string>;
   rootNote: WritableSignal<string>;
   scale: WritableSignal<string>;
+  viewOption: WritableSignal<string>;
 }
 
 interface AppSettings {
-  viewOption: string;
   fretboards: {
     title: string;
     tuning: string;
     rootNote: string;
     scale: string;
+    viewOption: string;
   }[];
 }
 
@@ -32,30 +33,29 @@ export class SettingsService {
   private defaultFretboardViewOption = Object.values(ViewOptions)[0];
   private defaultTuning = 'E4,B3,G3,D3,A2,E2';
   private defaultSettings: AppSettings = {
-    viewOption: this.defaultFretboardViewOption,
     fretboards: [
       {
         title: 'Standard E',
         tuning: this.defaultTuning,
         rootNote: this.defaultRootNote,
         scale: this.defaultScale,
+        viewOption: this.defaultFretboardViewOption,
       },
       {
         title: 'Drop D',
         tuning: 'E4,B3,G3,D3,A2,D2',
         rootNote: 'D',
         scale: 'Minor Scale',
+        viewOption: this.defaultFretboardViewOption,
       },
     ],
   };
 
-  fretboardViewOption: WritableSignal<string>;
   fretboards: WritableSignal<FretboardSettings[]>;
 
   constructor() {
     const appSettings = this.getSettingsFromLocalStorage();
 
-    this.fretboardViewOption = signal(appSettings.viewOption);
     this.fretboards = signal([]);
 
     appSettings.fretboards.forEach((fretboard) => {
@@ -63,7 +63,8 @@ export class SettingsService {
         fretboard.title,
         fretboard.tuning,
         fretboard.rootNote,
-        fretboard.scale
+        fretboard.scale,
+        fretboard.viewOption
       );
     });
   }
@@ -72,9 +73,10 @@ export class SettingsService {
     title: string,
     tuning: string,
     rootNote: string,
-    scale: string
+    scale: string,
+    viewOption: string
   ): void {
-    if (!title || !tuning || !rootNote || !scale) {
+    if (!title || !tuning || !rootNote || !scale || !viewOption) {
       throw new Error('All fretboard fields are required');
     }
 
@@ -91,6 +93,7 @@ export class SettingsService {
       tuning: signal(tuning),
       rootNote: signal(rootNote),
       scale: signal(scale),
+      viewOption: signal(viewOption),
     };
     this.fretboards.update((fretboards) => [...fretboards, newFretboard]);
   }
@@ -103,12 +106,12 @@ export class SettingsService {
 
   saveSettings(): void {
     this.saveSettingsToLocalStorage({
-      viewOption: this.fretboardViewOption(),
       fretboards: this.fretboards().map((fretboard) => ({
         title: fretboard.title(),
         tuning: fretboard.tuning(),
         rootNote: fretboard.rootNote(),
         scale: fretboard.scale(),
+        viewOption: fretboard.viewOption(),
       })),
     });
   }
@@ -117,11 +120,7 @@ export class SettingsService {
     const settings = localStorage.getItem(SETTINGS);
     if (settings) {
       const appSettings: AppSettings = JSON.parse(settings);
-      if (
-        appSettings.viewOption &&
-        appSettings.fretboards &&
-        appSettings.fretboards.length
-      ) {
+      if (appSettings.fretboards && appSettings.fretboards.length) {
         return appSettings;
       }
     }
