@@ -33,11 +33,6 @@ import { SettingsService } from './services/settings.service';
 })
 export class AppComponent {
   title = 'Fretboard Map';
-  step = signal(0);
 
   constructor(public settings: SettingsService) {}
-
-  setStep(index: number) {
-    this.step.set(index);
-  }
 }

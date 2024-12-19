@@ -19,12 +19,43 @@ describe('SettingsService', () => {
 
   it('should initialize with default settings', () => {
     expect(service.fretboards().length).toBe(2);
-    expect(service.fretboards()[0].title()).toBe('Standard E');
+    expect(service.fretboards()[0].title).toBe('Standard E');
     expect(service.fretboards()[0].rootNote()).toBe('C');
     expect(service.fretboards()[0].scale()).toBe('Chromatic Scale');
     expect(service.fretboards()[0].tuning()).toBe('E4,B3,G3,D3,A2,E2');
     expect(service.fretboards()[0].viewOption()).toBe('24 frets');
     expect(service.fretboards()[0].expanded()).toBe(true);
+  });
+
+  it('should save updated settings into local storage', () => {
+    const newRootNote = 'F#';
+    const newScale = 'Major Scale';
+    const newTuning = 'E4,E4';
+    const newViewOption = '12 frets';
+    const newExpanded = false;
+
+    service.fretboards()[0].rootNote.set(newRootNote);
+    service.fretboards()[0].scale.set(newScale);
+    service.fretboards()[0].tuning.set(newTuning);
+    service.fretboards()[0].viewOption.set(newViewOption);
+    service.fretboards()[0].expanded.set(newExpanded);
+    TestBed.flushEffects();
+
+    const savedSettings = JSON.parse(localStorage.getItem('settings')!);
+    expect(service.fretboards()[0].rootNote()).toBe(newRootNote);
+    expect(savedSettings.fretboards[0].rootNote).toBe(newRootNote);
+
+    expect(service.fretboards()[0].scale()).toBe(newScale);
+    expect(savedSettings.fretboards[0].scale).toBe(newScale);
+
+    expect(service.fretboards()[0].tuning()).toBe(newTuning);
+    expect(savedSettings.fretboards[0].tuning).toBe(newTuning);
+
+    expect(service.fretboards()[0].viewOption()).toBe(newViewOption);
+    expect(savedSettings.fretboards[0].viewOption).toBe(newViewOption);
+
+    expect(service.fretboards()[0].expanded()).toBe(newExpanded);
+    expect(savedSettings.fretboards[0].expanded).toBe(newExpanded);
   });
 
   it('should add a new fretboard', () => {
@@ -37,7 +68,7 @@ describe('SettingsService', () => {
       true
     );
     expect(service.fretboards().length).toBe(3);
-    expect(service.fretboards()[2].title()).toBe('Fretboard 2');
+    expect(service.fretboards()[2].title).toBe('Fretboard 2');
     expect(service.fretboards()[2].viewOption()).toBe('24 frets');
     expect(service.fretboards()[2].expanded()).toBe(true);
   });
@@ -129,7 +160,7 @@ describe('SettingsService', () => {
     service = TestBed.inject(SettingsService);
 
     expect(service.fretboards().length).toBe(1);
-    expect(service.fretboards()[0].title()).toBe('Fretboard 2');
+    expect(service.fretboards()[0].title).toBe('Fretboard 2');
     expect(service.fretboards()[0].rootNote()).toBe('D');
     expect(service.fretboards()[0].scale()).toBe('Minor Scale');
     expect(service.fretboards()[0].tuning()).toBe('E4,B3,G3,D3,A2,D2');
