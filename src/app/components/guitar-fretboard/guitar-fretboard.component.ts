@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { GuitarFretComponent } from './guitar-fret/guitar-fret.component';
 import { SettingsService } from '../../services/settings.service';
+import { ViewOptions } from '../../models/view-options';
 
 @Component({
   selector: 'gfm-guitar-fretboard',
