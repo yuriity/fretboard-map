@@ -10,6 +10,7 @@ export interface FretboardSettings {
   rootNote: WritableSignal<string>;
   scale: WritableSignal<string>;
   viewOption: WritableSignal<string>;
+  expanded: WritableSignal<boolean>;
 }
 
 interface AppSettings {
@@ -19,6 +20,7 @@ interface AppSettings {
     rootNote: string;
     scale: string;
     viewOption: string;
+    expanded: boolean;
   }[];
 }
 
@@ -40,6 +42,7 @@ export class SettingsService {
         rootNote: this.defaultRootNote,
         scale: this.defaultScale,
         viewOption: this.defaultFretboardViewOption,
+        expanded: true,
       },
       {
         title: 'Drop D',
@@ -47,6 +50,7 @@ export class SettingsService {
         rootNote: 'D',
         scale: 'Minor Scale',
         viewOption: this.defaultFretboardViewOption,
+        expanded: true,
       },
     ],
   };
@@ -64,7 +68,8 @@ export class SettingsService {
         fretboard.tuning,
         fretboard.rootNote,
         fretboard.scale,
-        fretboard.viewOption
+        fretboard.viewOption,
+        fretboard.expanded
       );
     });
   }
@@ -74,7 +79,8 @@ export class SettingsService {
     tuning: string,
     rootNote: string,
     scale: string,
-    viewOption: string
+    viewOption: string,
+    expanded: boolean
   ): void {
     if (!title || !tuning || !rootNote || !scale || !viewOption) {
       throw new Error('All fretboard fields are required');
@@ -94,7 +100,9 @@ export class SettingsService {
       rootNote: signal(rootNote),
       scale: signal(scale),
       viewOption: signal(viewOption),
+      expanded: signal(expanded),
     };
+
     this.fretboards.update((fretboards) => [...fretboards, newFretboard]);
   }
 
@@ -112,6 +120,7 @@ export class SettingsService {
         rootNote: fretboard.rootNote(),
         scale: fretboard.scale(),
         viewOption: fretboard.viewOption(),
+        expanded: fretboard.expanded(),
       })),
     });
   }

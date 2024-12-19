@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { SettingsService } from './settings.service';
 import { ChromaticScale } from '../models/notes';
 import { ScaleFormulas } from '../models/scale-formulas';
-import { ViewOptions } from '../models/view-options';
 
 describe('SettingsService', () => {
   let service: SettingsService;
@@ -25,6 +24,7 @@ describe('SettingsService', () => {
     expect(service.fretboards()[0].scale()).toBe('Chromatic Scale');
     expect(service.fretboards()[0].tuning()).toBe('E4,B3,G3,D3,A2,E2');
     expect(service.fretboards()[0].viewOption()).toBe('24 frets');
+    expect(service.fretboards()[0].expanded()).toBe(true);
   });
 
   it('should add a new fretboard', () => {
@@ -33,11 +33,13 @@ describe('SettingsService', () => {
       'E4,B3,G3,D3,A2,E2',
       ChromaticScale[0].name,
       Object.keys(ScaleFormulas)[0],
-      '24 frets'
+      '24 frets',
+      true
     );
     expect(service.fretboards().length).toBe(3);
     expect(service.fretboards()[2].title()).toBe('Fretboard 2');
     expect(service.fretboards()[2].viewOption()).toBe('24 frets');
+    expect(service.fretboards()[2].expanded()).toBe(true);
   });
 
   it('should not add a fretboard with missing fields', () => {
@@ -47,7 +49,8 @@ describe('SettingsService', () => {
         'E4,B3,G3,D3,A2,E2',
         ChromaticScale[0].name,
         Object.keys(ScaleFormulas)[0],
-        '24 frets'
+        '24 frets',
+        false
       )
     ).toThrowError('All fretboard fields are required');
   });
@@ -58,7 +61,8 @@ describe('SettingsService', () => {
       'E4,B3,G3,D3,A2,E2',
       ChromaticScale[0].name,
       Object.keys(ScaleFormulas)[0],
-      '24 frets'
+      '24 frets',
+      false
     );
     expect(() =>
       service.addFretboard(
@@ -66,7 +70,8 @@ describe('SettingsService', () => {
         'E4,B3,G3,D3,A2,E2',
         ChromaticScale[0].name,
         Object.keys(ScaleFormulas)[0],
-        '24 frets'
+        '24 frets',
+        false
       )
     ).toThrowError('Fretboard title must be unique');
   });
@@ -77,7 +82,8 @@ describe('SettingsService', () => {
       'E4,B3,G3,D3,A2,E2',
       ChromaticScale[0].name,
       Object.keys(ScaleFormulas)[0],
-      '24 frets'
+      '24 frets',
+      false
     );
     service.removeFretboard('Fretboard 2');
     expect(service.fretboards().length).toBe(2);
@@ -89,13 +95,15 @@ describe('SettingsService', () => {
       'E4,B3,G3,D3,A2,E2',
       ChromaticScale[0].name,
       Object.keys(ScaleFormulas)[0],
-      '24 frets'
+      '24 frets',
+      false
     );
     service.saveSettings();
     const savedSettings = JSON.parse(localStorage.getItem('settings')!);
     expect(savedSettings.fretboards.length).toBe(3);
     expect(savedSettings.fretboards[2].title).toBe('Fretboard 2');
     expect(savedSettings.fretboards[2].viewOption).toBe('24 frets');
+    expect(savedSettings.fretboards[2].expanded).toBe(false);
   });
 
   it('should load settings from localStorage', () => {
@@ -107,6 +115,7 @@ describe('SettingsService', () => {
           rootNote: 'D',
           scale: 'Minor Scale',
           viewOption: '12 frets',
+          expanded: false,
         },
       ],
     };
@@ -125,5 +134,6 @@ describe('SettingsService', () => {
     expect(service.fretboards()[0].scale()).toBe('Minor Scale');
     expect(service.fretboards()[0].tuning()).toBe('E4,B3,G3,D3,A2,D2');
     expect(service.fretboards()[0].viewOption()).toBe('12 frets');
+    expect(service.fretboards()[0].expanded()).toBe(false);
   });
 });
