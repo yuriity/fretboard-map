@@ -11,44 +11,19 @@ import { ChromaticScale } from '../models/notes';
 import { ScaleFormulas } from '../models/scale-formulas';
 import { ViewOptions } from '../models/view-options';
 
-/**
- * Interface representing the settings for a fretboard.
- */
 export interface FretboardSettings {
-  /**
-   * The title of the fretboard. Changing this will not update settings in local storage.
-   * Use `renameFretboard` instead.
-   */
+  id: string;
   title: WritableSignal<string>;
-
-  /**
-   * The tuning of the fretboard.
-   */
   tuning: WritableSignal<string>;
-
-  /**
-   * The root note of the fretboard.
-   */
   rootNote: WritableSignal<string>;
-
-  /**
-   * The scale of the fretboard.
-   */
   scale: WritableSignal<string>;
-
-  /**
-   * The view option for the fretboard.
-   */
   viewOption: WritableSignal<string>;
-
-  /**
-   * Indicates whether the fretboard is expanded.
-   */
   expanded: WritableSignal<boolean>;
 }
 
 interface AppSettings {
   fretboards: {
+    id: string;
     title: string;
     tuning: string;
     rootNote: string;
@@ -58,15 +33,13 @@ interface AppSettings {
   }[];
 }
 
-type EffectRefDictionary = { [key: string]: EffectRef };
-
 const SETTINGS = 'settings';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SettingsService {
-  private effects: EffectRefDictionary = {};
+  private effects = new Map<string, EffectRef>();
   private defaultRootNote = ChromaticScale[0].name;
   private defaultScale = Object.keys(ScaleFormulas)[0];
   private defaultFretboardViewOption = Object.values(ViewOptions)[0];
@@ -74,6 +47,7 @@ export class SettingsService {
   private defaultSettings: AppSettings = {
     fretboards: [
       {
+        id: '1',
         title: 'Standard E',
         tuning: this.defaultTuning,
         rootNote: this.defaultRootNote,
@@ -82,6 +56,7 @@ export class SettingsService {
         expanded: true,
       },
       {
+        id: '2',
         title: 'Drop D',
         tuning: 'E4,B3,G3,D3,A2,D2',
         rootNote: 'D',
@@ -101,6 +76,7 @@ export class SettingsService {
 
     appSettings.fretboards.forEach((fretboard) => {
       this.addFretboard(
+        fretboard.id,
         fretboard.title,
         fretboard.tuning,
         fretboard.rootNote,
@@ -112,6 +88,7 @@ export class SettingsService {
   }
 
   addFretboard(
+    id: string,
     title: string,
     tuning: string,
     rootNote: string,
@@ -119,8 +96,16 @@ export class SettingsService {
     viewOption: string,
     expanded: boolean
   ): void {
-    if (!title || !tuning || !rootNote || !scale || !viewOption) {
+    if (!id || !title || !tuning || !rootNote || !scale || !viewOption) {
       throw new Error('All fretboard fields are required');
+    }
+
+    if (
+      this.fretboards().some(
+        (fretboard: FretboardSettings) => fretboard.id === id
+      )
+    ) {
+      throw new Error('Fretboard ID must be unique');
     }
 
     if (
@@ -132,6 +117,7 @@ export class SettingsService {
     }
 
     const newFretboard = {
+      id,
       title: signal(title),
       tuning: signal(tuning),
       rootNote: signal(rootNote),
@@ -154,51 +140,27 @@ export class SettingsService {
         this.saveSettings();
 
         onCleanup(() => {
-          console.log('Effect cleanup ' + newFretboard.title);
+          console.log('Effect cleanup ' + newFretboard.id);
         });
       },
       { injector: this.injector }
     );
 
-    this.effects[title] = effectRef;
+    this.effects.set(id, effectRef);
   }
 
-  renameFretboard(oldTitle: string, newTitle: string): void {
-    if (!newTitle) {
-      throw new Error('Fretboard title is required');
-    }
-
-    if (
-      this.fretboards().some(
-        (fretboard: FretboardSettings) => fretboard.title() === newTitle
-      )
-    ) {
-      throw new Error('Fretboard title must be unique');
-    }
-
+  removeFretboard(id: string): void {
     this.fretboards.update((fretboards) =>
-      fretboards.map((fretboard) => {
-        if (fretboard.title() === oldTitle) {
-          fretboard.title.set(newTitle);
-        }
-        return fretboard;
-      })
+      fretboards.filter((fretboard) => fretboard.id !== id)
     );
-    this.effects[newTitle] = this.effects[oldTitle];
-    delete this.effects[oldTitle];
-  }
-
-  removeFretboard(title: string): void {
-    this.fretboards.update((fretboards) =>
-      fretboards.filter((fretboard) => fretboard.title() !== title)
-    );
-    this.effects[title].destroy();
-    delete this.effects[title];
+    this.effects.get(id)?.destroy();
+    this.effects.delete(id);
   }
 
   saveSettings(): void {
     this.saveSettingsToLocalStorage({
       fretboards: this.fretboards().map((fretboard) => ({
+        id: fretboard.id,
         title: fretboard.title(),
         tuning: fretboard.tuning(),
         rootNote: fretboard.rootNote(),

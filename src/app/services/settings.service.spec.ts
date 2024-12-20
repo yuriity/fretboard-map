@@ -66,6 +66,7 @@ describe('SettingsService', () => {
 
   it('should add a new fretboard', () => {
     service.addFretboard(
+      '3',
       'Fretboard 2',
       'E4,B3,G3,D3,A2,E2',
       ChromaticScale[0].name,
@@ -82,6 +83,7 @@ describe('SettingsService', () => {
   it('should not add a fretboard with missing fields', () => {
     expect(() =>
       service.addFretboard(
+        '3',
         '',
         'E4,B3,G3,D3,A2,E2',
         ChromaticScale[0].name,
@@ -94,6 +96,7 @@ describe('SettingsService', () => {
 
   it('should not add a fretboard with a duplicate title', () => {
     service.addFretboard(
+      '3',
       'Fretboard 2',
       'E4,B3,G3,D3,A2,E2',
       ChromaticScale[0].name,
@@ -103,6 +106,7 @@ describe('SettingsService', () => {
     );
     expect(() =>
       service.addFretboard(
+        '4',
         'Fretboard 2',
         'E4,B3,G3,D3,A2,E2',
         ChromaticScale[0].name,
@@ -115,6 +119,7 @@ describe('SettingsService', () => {
 
   it('should remove a fretboard', () => {
     service.addFretboard(
+      '3',
       'Fretboard 2',
       'E4,B3,G3,D3,A2,E2',
       ChromaticScale[0].name,
@@ -122,12 +127,13 @@ describe('SettingsService', () => {
       '24 frets',
       false
     );
-    service.removeFretboard('Fretboard 2');
+    service.removeFretboard('3');
     expect(service.fretboards().length).toBe(2);
   });
 
   it('should save settings to localStorage', () => {
     service.addFretboard(
+      '3',
       'Fretboard 2',
       'E4,B3,G3,D3,A2,E2',
       ChromaticScale[0].name,
@@ -147,6 +153,7 @@ describe('SettingsService', () => {
     const mockSettings = {
       fretboards: [
         {
+          id: '3',
           title: 'Fretboard 2',
           tuning: 'E4,B3,G3,D3,A2,D2',
           rootNote: 'D',
@@ -172,35 +179,5 @@ describe('SettingsService', () => {
     expect(service.fretboards()[0].tuning()).toBe('E4,B3,G3,D3,A2,D2');
     expect(service.fretboards()[0].viewOption()).toBe('12 frets');
     expect(service.fretboards()[0].expanded()).toBe(false);
-  });
-
-  it('should rename a fretboard', () => {
-    const oldTitle = 'Standard E';
-    const newTitle = 'Standard E (Renamed)';
-
-    service.renameFretboard(oldTitle, newTitle);
-    TestBed.flushEffects();
-
-    expect(service.fretboards()[0].title()).toBe(newTitle);
-    const savedSettings = JSON.parse(localStorage.getItem('settings')!);
-    expect(savedSettings.fretboards[0].title).toBe(newTitle);
-  });
-
-  it('should not rename a fretboard to an empty title', () => {
-    const oldTitle = 'Standard E';
-    const newTitle = '';
-
-    expect(() => service.renameFretboard(oldTitle, newTitle)).toThrowError(
-      'Fretboard title is required'
-    );
-  });
-
-  it('should not rename a fretboard to a duplicate title', () => {
-    const oldTitle = 'Standard E';
-    const newTitle = 'Drop D';
-
-    expect(() => service.renameFretboard(oldTitle, newTitle)).toThrowError(
-      'Fretboard title must be unique'
-    );
   });
 });
