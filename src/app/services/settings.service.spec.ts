@@ -173,4 +173,34 @@ describe('SettingsService', () => {
     expect(service.fretboards()[0].viewOption()).toBe('12 frets');
     expect(service.fretboards()[0].expanded()).toBe(false);
   });
+
+  it('should rename a fretboard', () => {
+    const oldTitle = 'Standard E';
+    const newTitle = 'Standard E (Renamed)';
+
+    service.renameFretboard(oldTitle, newTitle);
+    TestBed.flushEffects();
+
+    expect(service.fretboards()[0].title()).toBe(newTitle);
+    const savedSettings = JSON.parse(localStorage.getItem('settings')!);
+    expect(savedSettings.fretboards[0].title).toBe(newTitle);
+  });
+
+  it('should not rename a fretboard to an empty title', () => {
+    const oldTitle = 'Standard E';
+    const newTitle = '';
+
+    expect(() => service.renameFretboard(oldTitle, newTitle)).toThrowError(
+      'Fretboard title is required'
+    );
+  });
+
+  it('should not rename a fretboard to a duplicate title', () => {
+    const oldTitle = 'Standard E';
+    const newTitle = 'Drop D';
+
+    expect(() => service.renameFretboard(oldTitle, newTitle)).toThrowError(
+      'Fretboard title must be unique'
+    );
+  });
 });

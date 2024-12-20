@@ -11,12 +11,39 @@ import { ChromaticScale } from '../models/notes';
 import { ScaleFormulas } from '../models/scale-formulas';
 import { ViewOptions } from '../models/view-options';
 
+/**
+ * Interface representing the settings for a fretboard.
+ */
 export interface FretboardSettings {
+  /**
+   * The title of the fretboard. Changing this will not update settings in local storage.
+   * Use `renameFretboard` instead.
+   */
   title: WritableSignal<string>;
+
+  /**
+   * The tuning of the fretboard.
+   */
   tuning: WritableSignal<string>;
+
+  /**
+   * The root note of the fretboard.
+   */
   rootNote: WritableSignal<string>;
+
+  /**
+   * The scale of the fretboard.
+   */
   scale: WritableSignal<string>;
+
+  /**
+   * The view option for the fretboard.
+   */
   viewOption: WritableSignal<string>;
+
+  /**
+   * Indicates whether the fretboard is expanded.
+   */
   expanded: WritableSignal<boolean>;
 }
 
@@ -134,6 +161,31 @@ export class SettingsService {
     );
 
     this.effects[title] = effectRef;
+  }
+
+  renameFretboard(oldTitle: string, newTitle: string): void {
+    if (!newTitle) {
+      throw new Error('Fretboard title is required');
+    }
+
+    if (
+      this.fretboards().some(
+        (fretboard: FretboardSettings) => fretboard.title() === newTitle
+      )
+    ) {
+      throw new Error('Fretboard title must be unique');
+    }
+
+    this.fretboards.update((fretboards) =>
+      fretboards.map((fretboard) => {
+        if (fretboard.title() === oldTitle) {
+          fretboard.title.set(newTitle);
+        }
+        return fretboard;
+      })
+    );
+    this.effects[newTitle] = this.effects[oldTitle];
+    delete this.effects[oldTitle];
   }
 
   removeFretboard(title: string): void {
