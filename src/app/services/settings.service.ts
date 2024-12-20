@@ -12,7 +12,7 @@ import { ScaleFormulas } from '../models/scale-formulas';
 import { ViewOptions } from '../models/view-options';
 
 export interface FretboardSettings {
-  readonly title: string;
+  title: WritableSignal<string>;
   tuning: WritableSignal<string>;
   rootNote: WritableSignal<string>;
   scale: WritableSignal<string>;
@@ -98,14 +98,14 @@ export class SettingsService {
 
     if (
       this.fretboards().some(
-        (fretboard: FretboardSettings) => fretboard.title === title
+        (fretboard: FretboardSettings) => fretboard.title() === title
       )
     ) {
       throw new Error('Fretboard title must be unique');
     }
 
     const newFretboard = {
-      title,
+      title: signal(title),
       tuning: signal(tuning),
       rootNote: signal(rootNote),
       scale: signal(scale),
@@ -118,6 +118,7 @@ export class SettingsService {
     // Effect to save settings when new fretboard properties are updated
     const effectRef = effect(
       (onCleanup) => {
+        newFretboard.title();
         newFretboard.tuning();
         newFretboard.rootNote();
         newFretboard.scale();
@@ -137,7 +138,7 @@ export class SettingsService {
 
   removeFretboard(title: string): void {
     this.fretboards.update((fretboards) =>
-      fretboards.filter((fretboard) => fretboard.title !== title)
+      fretboards.filter((fretboard) => fretboard.title() !== title)
     );
     this.effects[title].destroy();
     delete this.effects[title];
@@ -146,7 +147,7 @@ export class SettingsService {
   saveSettings(): void {
     this.saveSettingsToLocalStorage({
       fretboards: this.fretboards().map((fretboard) => ({
-        title: fretboard.title,
+        title: fretboard.title(),
         tuning: fretboard.tuning(),
         rootNote: fretboard.rootNote(),
         scale: fretboard.scale(),
