@@ -1,6 +1,6 @@
 <div id="app-container">
   <header>
-    <mat-toolbar color="primary">
+    <mat-toolbar>
       <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
       </button>
@@ -16,31 +16,11 @@
   </header>
   <main class="main">
     <div class="main-container">
-      <mat-accordion class="accordion-headers-align" multi="true">
-        @for (fretboard of settings.fretboards(); track fretboard.title) {
-          <mat-expansion-panel [expanded]="fretboard.expanded()" (opened)="fretboard.expanded.set(true)" (closed)="fretboard.expanded.set(false)">
-            <mat-expansion-panel-header>
-              <mat-panel-title> {{ fretboard.title }} </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <div>
-              Tuning: {{ fretboard.tuning() }} <br>
-              Root Note: {{ fretboard.rootNote() }} <br>
-              Scale: {{ fretboard.scale() }} <br>
-            </div>
-
-            <mat-action-row>
-              <button mat-icon-button aria-label="Edit fretboard title">
-                <mat-icon matTooltip="Edit fretboard title">edit</mat-icon>
-              </button>
-              <button mat-icon-button aria-label="Delete fretboard">
-                <mat-icon matTooltip="Delete fretboard">delete</mat-icon>
-              </button>
-            </mat-action-row>
-          </mat-expansion-panel>
-        }
-      </mat-accordion>
+      <fbm-fretboards></fbm-fretboards>
     </div>
   </main>
+  <button mat-fab class="floating-button" aria-label="Add new fretboard">
+    <mat-icon>add</mat-icon>
+  </button>
 </div>
 
