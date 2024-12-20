@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>Rename fretboard</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>New title</mat-label>
+    <input matInput [formControl]="titleFormControl" />
+    @if (titleFormControl.hasError('required')) {
+      <mat-error>Title is <strong>required</strong></mat-error>
+    }
+    @if (titleFormControl.hasError('notUnique')) {
+      <mat-error>Title must be <strong>unique</strong></mat-error>
+    }
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onCancelClick()" cdkFocusInitial>Cancel</button>
+  <button mat-button [mat-dialog-close]="titleFormControl.value" [disabled]="titleFormControl.invalid">Ok</button>
+</mat-dialog-actions>

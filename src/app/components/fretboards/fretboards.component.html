@@ -12,7 +12,7 @@
       </div>
 
       <mat-action-row>
-        <button mat-icon-button aria-label="Edit fretboard title">
+        <button mat-icon-button aria-label="Edit fretboard title" (click)="openRenameFretboardDialog(fretboard)">
           <mat-icon matTooltip="Edit fretboard title">edit</mat-icon>
         </button>
         <button mat-icon-button aria-label="Delete fretboard">

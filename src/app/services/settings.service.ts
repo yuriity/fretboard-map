@@ -10,16 +10,7 @@ import {
 import { ChromaticScale } from '../models/notes';
 import { ScaleFormulas } from '../models/scale-formulas';
 import { ViewOptions } from '../models/view-options';
-
-export interface FretboardSettings {
-  id: string;
-  title: WritableSignal<string>;
-  tuning: WritableSignal<string>;
-  rootNote: WritableSignal<string>;
-  scale: WritableSignal<string>;
-  viewOption: WritableSignal<string>;
-  expanded: WritableSignal<boolean>;
-}
+import { FretboardSettings } from '../models/fretboard-settings';
 
 interface AppSettings {
   fretboards: {
@@ -130,7 +121,7 @@ export class SettingsService {
 
     // Effect to save settings when new fretboard properties are updated
     const effectRef = effect(
-      (onCleanup) => {
+      () => {
         newFretboard.title();
         newFretboard.tuning();
         newFretboard.rootNote();
@@ -138,10 +129,6 @@ export class SettingsService {
         newFretboard.viewOption();
         newFretboard.expanded();
         this.saveSettings();
-
-        onCleanup(() => {
-          console.log('Effect cleanup ' + newFretboard.id);
-        });
       },
       { injector: this.injector }
     );

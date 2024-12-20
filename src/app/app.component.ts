@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -6,7 +6,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SettingsService } from './services/settings.service';
-import { FretboardsComponent } from './components/fretboards/fretboards/fretboards.component';
+import { FretboardsComponent } from './components/fretboards/fretboards.component';
 
 @Component({
   selector: 'fbm-root',
@@ -30,12 +30,6 @@ import { FretboardsComponent } from './components/fretboards/fretboards/fretboar
     }
     .main {
       margin-top: 1rem;
-    }
-    .floating-button {
-      position: fixed;
-      bottom: 1rem;
-      right: 1rem;
-      z-index: 1000;
     }
   `,
 })
