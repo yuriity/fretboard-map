@@ -1,1 +1,41 @@
-<p>add-fretboard-dialog works!</p>
+<h2 mat-dialog-title>Create new fretboard</h2>
+<mat-dialog-content class="dialog-content">
+  <mat-form-field>
+    <mat-label>Fretboard title</mat-label>
+    <input matInput [formControl]="titleFormControl" />
+    @if (titleFormControl.hasError('required')) {
+      <mat-error>Title is <strong>required</strong></mat-error>
+    }
+    @if (titleFormControl.hasError('notUnique')) {
+      <mat-error>Title must be <strong>unique</strong></mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Root note</mat-label>
+    <mat-select [formControl]="rootNoteControl">
+      @for (note of noteNames; track note) {
+        <mat-option [value]="note">{{note}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Scale</mat-label>
+    <mat-select [formControl]="scaleControl">
+      @for (scale of scaleNames; track scale) {
+        <mat-option [value]="scale">{{scale}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onCancelClick()">Cancel</button>
+  <button
+    mat-button
+    cdkFocusInitial
+    [mat-dialog-close]="dialogResult"
+    [disabled]="titleFormControl.invalid || rootNoteControl.invalid || scaleControl.invalid">
+    Ok
+  </button>
+</mat-dialog-actions>
