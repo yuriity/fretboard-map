@@ -45,7 +45,7 @@ export interface RenameFretboardDialogData {
 export class RenameFretboardDialogComponent {
   readonly dialogRef = inject(MatDialogRef<FretboardsComponent>);
   readonly data = inject<RenameFretboardDialogData>(MAT_DIALOG_DATA);
-  // readonly newTitle = model(this.data.newTitle);
+
   titleFormControl = new FormControl(this.data.newTitle, [
     Validators.required,
     this.titleUniqueValidator.bind(this),
