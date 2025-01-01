@@ -19,7 +19,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-import { FretboardsComponent } from '../fretboards/fretboards.component';
+import { FretboardsAccordionComponent } from '../fretboards-accordion/fretboards-accordion.component';
 
 export interface RenameFretboardDialogData {
   newTitle: string;
@@ -43,7 +43,7 @@ export interface RenameFretboardDialogData {
   styles: ``,
 })
 export class RenameFretboardDialogComponent {
-  readonly dialogRef = inject(MatDialogRef<FretboardsComponent>);
+  readonly dialogRef = inject(MatDialogRef<FretboardsAccordionComponent>);
   readonly data = inject<RenameFretboardDialogData>(MAT_DIALOG_DATA);
 
   titleFormControl = new FormControl(this.data.newTitle, [

@@ -3,12 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { signal } from '@angular/core';
 
-import { FretboardsComponent } from './fretboards.component';
+import { FretboardsAccordionComponent } from './fretboards-accordion.component';
 import { SettingsService } from '../../services/settings.service';
 
-describe('FretboardsComponent', () => {
-  let component: FretboardsComponent;
-  let fixture: ComponentFixture<FretboardsComponent>;
+describe('FretboardAccordionComponent', () => {
+  let component: FretboardsAccordionComponent;
+  let fixture: ComponentFixture<FretboardsAccordionComponent>;
   let dialogSpy: jasmine.SpyObj<MatDialog>;
   let settingsServiceSpy: jasmine.SpyObj<SettingsService>;
 
@@ -33,14 +33,14 @@ describe('FretboardsComponent', () => {
     );
 
     await TestBed.configureTestingModule({
-      imports: [FretboardsComponent],
+      imports: [FretboardsAccordionComponent],
       providers: [
         { provide: MatDialog, useValue: dialogSpy },
         { provide: SettingsService, useValue: settingsServiceSpy },
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(FretboardsComponent);
+    fixture = TestBed.createComponent(FretboardsAccordionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -7,7 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SettingsService } from './services/settings.service';
-import { FretboardsComponent } from './components/fretboards/fretboards.component';
+import { FretboardsAccordionComponent } from './components/fretboards-accordion/fretboards-accordion.component';
 import { AddFretboardDialogComponent } from './components/dialogs/add-fretboard-dialog.component';
 
 @Component({
@@ -18,7 +18,7 @@ import { AddFretboardDialogComponent } from './components/dialogs/add-fretboard-
     MatIconModule,
     MatTabsModule,
     MatTooltipModule,
-    FretboardsComponent,
+    FretboardsAccordionComponent,
   ],
   templateUrl: './app.component.html',
   styles: `

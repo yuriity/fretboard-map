@@ -1,4 +1,4 @@
-import { Component, inject, model, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -10,9 +10,9 @@ import { DeleteFretboardDialogComponent } from '../dialogs/delete-fretboard-dial
 import { FretboardSettings } from '../../models/fretboard-settings';
 
 @Component({
-  selector: 'fbm-fretboards',
+  selector: 'fbm-fretboard-accordion',
   imports: [MatButtonModule, MatExpansionModule, MatIconModule],
-  templateUrl: './fretboards.component.html',
+  templateUrl: './fretboards-accordion.component.html',
   styles: `
     .accordion-headers-align .mat-expansion-panel-header-description {
       justify-content: space-between;
@@ -20,7 +20,7 @@ import { FretboardSettings } from '../../models/fretboard-settings';
     }
   `,
 })
-export class FretboardsComponent {
+export class FretboardsAccordionComponent {
   readonly dialog = inject(MatDialog);
 
   constructor(public settings: SettingsService) {}
