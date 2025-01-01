@@ -1,11 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+
+import { FretboardsComponent } from '../fretboards/fretboards.component';
+
+export interface DeleteFretboardDialogData {
+  title: string;
+}
 
 @Component({
   selector: 'fbm-delete-fretboard-dialog',
-  imports: [],
+  standalone: true,
+  imports: [
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+  ],
   templateUrl: './delete-fretboard-dialog.component.html',
-  styles: ``
+  styles: ``,
 })
 export class DeleteFretboardDialogComponent {
+  readonly dialogRef = inject(MatDialogRef<FretboardsComponent>);
+  readonly data = inject<DeleteFretboardDialogData>(MAT_DIALOG_DATA);
 
+  onCancelClick(): void {
+    this.dialogRef.close();
+  }
 }

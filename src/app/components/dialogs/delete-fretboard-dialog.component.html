@@ -1,1 +1,8 @@
-<p>delete-fretboard-dialog works!</p>
+<h2 mat-dialog-title>Delete fretboard</h2>
+<mat-dialog-content class="confirmation-message">
+  Are you sure you want to delete "{{ data.title }}" fretboard?
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button class="cancel-button" cancel-button mat-button (click)="onCancelClick()" cdkFocusInitial>Cancel</button>
+  <button class="confirm-button" aria-label="Confirm deletion button" mat-button color="warn" [mat-dialog-close]="true">Delete</button>
+</mat-dialog-actions>

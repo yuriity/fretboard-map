@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { SettingsService } from '../../services/settings.service';
 import { RenameFretboardDialogComponent } from '../dialogs/rename-fretboard-dialog.component';
+import { DeleteFretboardDialogComponent } from '../dialogs/delete-fretboard-dialog.component';
 import { FretboardSettings } from '../../models/fretboard-settings';
 
 @Component({
@@ -35,10 +36,20 @@ export class FretboardsComponent {
     });
 
     dialogRef.afterClosed().subscribe((newTitle) => {
-      console.log('The dialog was closed');
       if (newTitle !== undefined) {
-        console.log('New title: ' + newTitle);
         fretboard.title.set(newTitle);
+      }
+    });
+  }
+
+  openDeleteFretboardDialog(fretboard: FretboardSettings): void {
+    const dialogRef = this.dialog.open(DeleteFretboardDialogComponent, {
+      data: { title: fretboard.title() },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.settings.removeFretboard(fretboard.id);
       }
     });
   }
