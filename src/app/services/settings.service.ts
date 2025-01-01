@@ -30,11 +30,11 @@ const SETTINGS = 'settings';
   providedIn: 'root',
 })
 export class SettingsService {
+  readonly defaultRootNote = ChromaticScale[0].name;
+  readonly defaultScale = Object.keys(ScaleFormulas)[0];
+  readonly defaultFretboardViewOption = Object.values(ViewOptions)[0];
+  readonly defaultTuning = 'E4,B3,G3,D3,A2,E2';
   private effects = new Map<string, EffectRef>();
-  private defaultRootNote = ChromaticScale[0].name;
-  private defaultScale = Object.keys(ScaleFormulas)[0];
-  private defaultFretboardViewOption = Object.values(ViewOptions)[0];
-  private defaultTuning = 'E4,B3,G3,D3,A2,E2';
   private defaultSettings: AppSettings = {
     fretboards: [
       {

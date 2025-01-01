@@ -50,9 +50,16 @@ export class AppComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('Add fretboard dialog was closed');
       if (result) {
-        console.log('Dialog result:', result);
+        this.settings.addFretboard(
+          (this.settings.fretboards().length + 1).toString(),
+          result.title,
+          this.settings.defaultTuning,
+          result.rootNoteName,
+          result.scale,
+          this.settings.defaultFretboardViewOption,
+          true
+        );
       }
     });
   }
