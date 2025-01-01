@@ -6,13 +6,13 @@ import { SettingsService } from '../../services/settings.service';
 import { ViewOptions } from '../../models/view-options';
 
 @Component({
-  selector: 'gfm-guitar-fretboard',
+  selector: 'fbm-fretboard',
   standalone: true,
   imports: [CommonModule, GuitarFretComponent],
-  templateUrl: './guitar-fretboard.component.html',
-  styleUrls: ['./guitar-fretboard.component.scss'],
+  templateUrl: './fretboard.component.html',
+  styleUrls: ['./fretboard.component.scss'],
 })
-export class GuitarFretboardComponent implements OnInit {
+export class FretboardComponent implements OnInit {
   ViewOptions = ViewOptions;
 
   constructor(public settings: SettingsService) {}
