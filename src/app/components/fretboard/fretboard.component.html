@@ -1,4 +1,7 @@
-@if (settings.selectedFretboardViewOption() === ViewOptions.TwentyFourFrets) {
+@if (this.fretboard == null) {
+  Fretboard is null!
+}
+@else if (this.viewOption === allViewOptions.TwentyFourFrets) {
   <table>
     <tr>
       <th></th>
@@ -27,7 +30,7 @@
       <th></th>
       <th>24</th>
     </tr>
-    @for (string of markupService.fretboard.strings; track string) {
+    @for (string of fretboard.strings; track string) {
       <tr>
         @for (fret of string.frets; track fret.note.id) {
           <td>
@@ -40,37 +43,37 @@
       <th></th>
       <th></th>
       <th></th>
-      <th><i class="bi bi-circle-fill"></i></th>
+      <th><mat-icon>brightness_1</mat-icon></th>
       <th></th>
-      <th><i class="bi bi-circle-fill"></i></th>
+      <th><mat-icon>brightness_1</mat-icon></th>
       <th></th>
-      <th><i class="bi bi-circle-fill"></i></th>
+      <th><mat-icon>brightness_1</mat-icon></th>
       <th></th>
-      <th><i class="bi bi-circle-fill"></i></th>
+      <th><mat-icon>brightness_1</mat-icon></th>
       <th></th>
       <th></th>
       <th>
-        <i class="bi bi-circle-fill"></i>
-        <i class="bi bi-circle-fill"></i>
+        <mat-icon>brightness_1</mat-icon>
+        <mat-icon>brightness_1</mat-icon>
       </th>
       <th></th>
       <th></th>
-      <th><i class="bi bi-circle-fill"></i></th>
+      <th><mat-icon>brightness_1</mat-icon></th>
       <th></th>
-      <th><i class="bi bi-circle-fill"></i></th>
+      <th><mat-icon>brightness_1</mat-icon></th>
       <th></th>
-      <th><i class="bi bi-circle-fill"></i></th>
+      <th><mat-icon>brightness_1</mat-icon></th>
       <th></th>
-      <th><i class="bi bi-circle-fill"></i></th>
+      <th><mat-icon>brightness_1</mat-icon></th>
       <th></th>
       <th></th>
       <th>
-        <i class="bi bi-circle-fill"></i>
-        <i class="bi bi-circle-fill"></i>
+        <mat-icon>brightness_1</mat-icon>
+        <mat-icon>brightness_1</mat-icon>
       </th>
     </tr>
   </table>
-} @else if (settings.selectedFretboardViewOption() === ViewOptions.TwelveFrets) {
+} @else if (this.viewOption === allViewOptions.TwelveFrets) {
   <table>
     <tr>
       <th></th>
@@ -87,7 +90,7 @@
       <th></th>
       <th>12</th>
     </tr>
-    @for (string of markupService.fretboard.strings; track string) {
+    @for (string of fretboard.strings; track string) {
       <tr>
         @for (fret of string.frets; track fret.note.id; let idx = $index) {
           @if (idx < 13) {
@@ -102,18 +105,18 @@
       <th></th>
       <th></th>
       <th></th>
-      <th><i class="bi bi-circle-fill"></i></th>
+      <th><mat-icon>brightness_1</mat-icon></th>
       <th></th>
-      <th><i class="bi bi-circle-fill"></i></th>
+      <th><mat-icon>brightness_1</mat-icon></th>
       <th></th>
-      <th><i class="bi bi-circle-fill"></i></th>
+      <th><mat-icon>brightness_1</mat-icon></th>
       <th></th>
-      <th><i class="bi bi-circle-fill"></i></th>
+      <th><mat-icon>brightness_1</mat-icon></th>
       <th></th>
       <th></th>
       <th>
-        <i class="bi bi-circle-fill"></i>
-        <i class="bi bi-circle-fill"></i>
+        <mat-icon>brightness_1</mat-icon>
+        <mat-icon>brightness_1</mat-icon>
       </th>
     </tr>
   </table>
