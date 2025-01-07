@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -16,7 +15,6 @@ import { AddFretboardDialogComponent } from './components/dialogs/add-fretboard-
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,
-    MatTabsModule,
     MatTooltipModule,
     FretboardsAccordionComponent,
   ],

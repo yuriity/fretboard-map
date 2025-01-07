@@ -1,4 +1,4 @@
-import { NoteState, FretClass, GuitarFret } from './guitar-fret';
+import { FretClass, GuitarFret } from './guitar-fret';
 import { GuitarString } from './guitar-string';
 import { ChromaticScale, Note } from './notes';
 import { Scale } from './scale';
@@ -11,7 +11,9 @@ export class Fretboard {
     for (let i = 0; i < startingNotes.length; i++) {
       const frets = new Array();
       const startingNoteIndex = ChromaticScale.findIndex(
-        (note) => note.name === startingNotes[i].name && note.octave === startingNotes[i].octave
+        (note) =>
+          note.name === startingNotes[i].name &&
+          note.octave === startingNotes[i].octave
       );
 
       for (let j = 0; j < freatsAmount + 1; j++) {
