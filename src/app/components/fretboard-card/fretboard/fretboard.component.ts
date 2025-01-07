@@ -3,8 +3,8 @@ import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { GuitarFretComponent } from './guitar-fret/guitar-fret.component';
-import { ViewOptions } from '../../models/view-options';
-import { Fretboard } from '../../models/fretboard';
+import { ViewOptions } from '../../../models/view-options';
+import { Fretboard } from '../../../models/fretboard';
 
 @Component({
   selector: 'fbm-fretboard',

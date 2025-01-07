@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
-import { GuitarFret } from '../../../models/guitar-fret';
+import { GuitarFret } from '../../../../models/guitar-fret';
 
 @Component({
   selector: 'fbm-guitar-fret',

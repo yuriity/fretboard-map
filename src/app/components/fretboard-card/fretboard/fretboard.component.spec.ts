@@ -3,10 +3,10 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { FretboardComponent } from './fretboard.component';
 import { GuitarFretComponent } from './guitar-fret/guitar-fret.component';
-import { ViewOptions } from '../../models/view-options';
-import { Fretboard } from '../../models/fretboard';
-import { Note } from '../../models/notes';
-import { Scale } from '../../models/scale';
+import { ViewOptions } from '../../../models/view-options';
+import { Fretboard } from '../../../models/fretboard';
+import { Note } from '../../../models/notes';
+import { Scale } from '../../../models/scale';
 
 describe('FretboardComponent', () => {
   let component: FretboardComponent;
