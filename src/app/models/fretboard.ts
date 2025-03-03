@@ -44,7 +44,7 @@ export class Fretboard {
         frets.push(newFret);
       }
 
-      this.strings.push({ frets: frets });
+      this.strings.push({ id: this.strings.length, frets: frets });
     }
   }
 

@@ -1,7 +1,7 @@
 @if (this.fretboard == null) {
   Fretboard is null!
 }
-@else if (this.viewOption === allViewOptions.TwentyFourFrets) {
+@else if (this.fretboardSettings().viewOption() === allViewOptions.TwentyFourFrets) {
   <table>
     <tr>
       <th></th>
@@ -30,7 +30,7 @@
       <th></th>
       <th>24</th>
     </tr>
-    @for (string of fretboard.strings; track string) {
+    @for (string of fretboard().strings; track string.id) {
       <tr>
         @for (fret of string.frets; track fret.note.id) {
           <td>
@@ -73,7 +73,7 @@
       </th>
     </tr>
   </table>
-} @else if (this.viewOption === allViewOptions.TwelveFrets) {
+} @else if (this.fretboardSettings().viewOption() === allViewOptions.TwelveFrets) {
   <table>
     <tr>
       <th></th>
@@ -90,7 +90,7 @@
       <th></th>
       <th>12</th>
     </tr>
-    @for (string of fretboard.strings; track string) {
+    @for (string of fretboard().strings; track string) {
       <tr>
         @for (fret of string.frets; track fret.note.id; let idx = $index) {
           @if (idx < 13) {
