@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { signal } from '@angular/core';
 
@@ -33,7 +34,7 @@ describe('FretboardAccordionComponent', () => {
     );
 
     await TestBed.configureTestingModule({
-      imports: [FretboardsAccordionComponent],
+      imports: [FretboardsAccordionComponent, NoopAnimationsModule],
       providers: [
         { provide: MatDialog, useValue: dialogSpy },
         { provide: SettingsService, useValue: settingsServiceSpy },
