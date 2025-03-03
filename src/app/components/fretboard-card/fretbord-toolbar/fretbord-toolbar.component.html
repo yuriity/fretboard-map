@@ -1,21 +1,18 @@
-<mat-toolbar>
+<div class="controls-container">
   <mat-form-field>
     <mat-label>Root note</mat-label>
-    <mat-select id="root-note" [value]="fretboard().rootNote()" (selectionChange)="onNoteSelected($event.value)">
+    <mat-select [value]="fretboard().rootNote()" (selectionChange)="onNoteSelected($event.value)">
       @for (note of notes; track note.name) {
         <mat-option [value]="note.name">{{note.name}}</mat-option>
       }
     </mat-select>
   </mat-form-field>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span>My App</span>
-  <span class="toolbar-spacer"></span>
-  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-    <mat-icon>favorite</mat-icon>
-  </button>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-    <mat-icon>share</mat-icon>
-  </button>
-</mat-toolbar>
+  <mat-form-field>
+    <mat-label>Scale</mat-label>
+    <mat-select [value]="fretboard().scale()" (selectionChange)="onScaleSelected($event.value)">
+      @for (scale of scaleNames; track scale) {
+        <mat-option [value]="scale">{{scale}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</div>
