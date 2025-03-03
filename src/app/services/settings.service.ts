@@ -145,6 +145,7 @@ export class SettingsService {
   }
 
   saveSettings(): void {
+    console.log('Saving settings');
     this.saveSettingsToLocalStorage({
       fretboards: this.fretboards().map((fretboard) => ({
         id: fretboard.id,

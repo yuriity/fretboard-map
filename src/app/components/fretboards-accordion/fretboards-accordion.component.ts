@@ -8,10 +8,16 @@ import { SettingsService } from '../../services/settings.service';
 import { RenameFretboardDialogComponent } from '../dialogs/rename-fretboard-dialog.component';
 import { DeleteFretboardDialogComponent } from '../dialogs/delete-fretboard-dialog.component';
 import { FretboardSettings } from '../../models/fretboard-settings';
+import { FretboardCardComponent } from '../fretboard-card/fretboard-card.component';
 
 @Component({
   selector: 'fbm-fretboard-accordion',
-  imports: [MatButtonModule, MatExpansionModule, MatIconModule],
+  imports: [
+    MatButtonModule,
+    MatExpansionModule,
+    MatIconModule,
+    FretboardCardComponent,
+  ],
   templateUrl: './fretboards-accordion.component.html',
   styles: `
     .accordion-headers-align .mat-expansion-panel-header-description {

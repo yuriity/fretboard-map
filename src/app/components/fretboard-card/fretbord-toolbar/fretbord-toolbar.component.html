@@ -1,4 +1,12 @@
 <mat-toolbar>
+  <mat-form-field>
+    <mat-label>Root note</mat-label>
+    <mat-select id="root-note" [value]="fretboard().rootNote()" (selectionChange)="onNoteSelected($event.value)">
+      @for (note of notes; track note.name) {
+        <mat-option [value]="note.name">{{note.name}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
   <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
     <mat-icon>menu</mat-icon>
   </button>

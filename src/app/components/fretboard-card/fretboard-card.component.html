@@ -1,1 +1,6 @@
-<p>fretboard-card works!</p>
+<fbm-fretbord-toolbar [fretboard]="fretboard()!"></fbm-fretbord-toolbar>
+<div>
+  Tuning: {{ fretboard()?.tuning() }} <br>
+  Root Note: {{ fretboard()?.rootNote() }} <br>
+  Scale: {{ fretboard()?.scale() }} <br>
+</div>

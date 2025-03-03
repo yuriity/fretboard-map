@@ -5,11 +5,7 @@
         <mat-panel-title> {{ fretboard.title() }} </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <div>
-        Tuning: {{ fretboard.tuning() }} <br>
-        Root Note: {{ fretboard.rootNote() }} <br>
-        Scale: {{ fretboard.scale() }} <br>
-      </div>
+      <fbm-fretboard-card [fretboard]="fretboard"></fbm-fretboard-card>
 
       <mat-action-row>
         <button mat-icon-button (click)="openRenameFretboardDialog(fretboard)" class="edit-title-button" aria-label="Edit fretboard title">
