@@ -1,35 +1,33 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
+import { signal } from '@angular/core';
 
 import { FretboardComponent } from './fretboard.component';
 import { GuitarFretComponent } from './guitar-fret/guitar-fret.component';
 import { ViewOptions } from '../../../models/view-options';
-import { Fretboard } from '../../../models/fretboard';
-import { Note } from '../../../models/notes';
-import { Scale } from '../../../models/scale';
+import { FretboardSettings } from '../../../models/fretboard-settings';
 
 describe('FretboardComponent', () => {
   let component: FretboardComponent;
   let fixture: ComponentFixture<FretboardComponent>;
 
-  const mockFretboard = new Fretboard(
-    [
-      new Note('E', 4),
-      new Note('A', 3),
-      new Note('D', 3),
-      new Note('G', 3),
-      new Note('B', 3),
-      new Note('E', 2),
-    ],
-    new Scale('C', null)
-  );
-
   beforeEach(async () => {
+    const mockSettings: FretboardSettings = {
+      id: 'mock-id',
+      title: signal('Mock Title'),
+      expanded: signal(true),
+      tuning: signal('E4,A3,D3,G3,B3,E2'),
+      rootNote: signal('C'),
+      scale: signal('Major Scale'),
+      viewOption: signal(ViewOptions.TwelveFrets),
+    };
+
     await TestBed.configureTestingModule({
       imports: [FretboardComponent, MatIconModule, GuitarFretComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FretboardComponent);
+    fixture.componentRef.setInput('fretboardSettings', mockSettings);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -38,19 +36,16 @@ describe('FretboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize with default values', () => {
-    expect(component.viewOption).toBe(Object.values(ViewOptions)[0]);
-    expect(component.fretboard).toBeNull();
-  });
-
-  it('should render null fretboard message when fretboard is null', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.textContent).toContain('Fretboard is null!');
+  it('should initialize with settings values', () => {
+    expect(component.fretboardSettings().title()).toBe('Mock Title');
+    expect(component.fretboardSettings().viewOption()).toBe(
+      ViewOptions.TwelveFrets
+    );
+    expect(component.fretboard()).toBeDefined();
   });
 
   it('should display 24 frets view when viewOption is TwentyFourFrets', () => {
-    component.fretboard = mockFretboard;
-    component.viewOption = ViewOptions.TwentyFourFrets;
+    component.fretboardSettings().viewOption.set(ViewOptions.TwentyFourFrets);
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
@@ -59,8 +54,7 @@ describe('FretboardComponent', () => {
   });
 
   it('should display 12 frets view when viewOption is TwelveFrets', () => {
-    component.fretboard = mockFretboard;
-    component.viewOption = ViewOptions.TwelveFrets;
+    component.fretboardSettings().viewOption.set(ViewOptions.TwelveFrets);
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;

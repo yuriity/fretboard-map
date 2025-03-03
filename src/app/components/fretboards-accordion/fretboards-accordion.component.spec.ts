@@ -25,7 +25,7 @@ describe('FretboardAccordionComponent', () => {
             title: signal('Test Fretboard'),
             tuning: signal('E4,B3,G3,D3,A2,E2'),
             rootNote: signal('E'),
-            scale: signal('Major'),
+            scale: signal('Major Scale'),
             viewOption: signal('24 frets'),
             expanded: signal(true),
           },
