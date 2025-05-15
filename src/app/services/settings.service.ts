@@ -48,9 +48,9 @@ export class SettingsService {
       },
       {
         id: '2',
-        title: 'Drop D',
-        tuning: 'E4,B3,G3,D3,A2,D2',
-        rootNote: 'D',
+        title: 'Drop C',
+        tuning: 'D4,A3,F3,C3,G2,C2',
+        rootNote: 'C',
         scale: 'Minor Scale',
         viewOption: this.defaultFretboardViewOption,
         expanded: true,
