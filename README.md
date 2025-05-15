@@ -1,6 +1,6 @@
 # FretboardMap
 
-[![Unit Tests](https://github.com/yuriity/fretboard-map/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/yuriity/fretboard-map/actions/workflows/unit-tests.yml)
+[![Unit Tests](https://github.com/yuriity/fretboard-map/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/yuriity/fretboard-map/actions/workflows/unit-tests.yml) [![Deploy to GitHub Pages](https://github.com/yuriity/fretboard-map/actions/workflows/deploy.yml/badge.svg)](https://github.com/yuriity/fretboard-map/actions/workflows/deploy.yml)
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.4.
 
