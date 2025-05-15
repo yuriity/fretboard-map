@@ -1,5 +1,7 @@
 # FretboardMap
 
+[![Unit Tests](https://github.com/yuriity/fretboard-map/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/yuriity/fretboard-map/actions/workflows/unit-tests.yml)
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.4.
 
 ## Development server
