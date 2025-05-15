@@ -29,4 +29,4 @@ jobs:
         with:
           token: ${{ secrets.GH_PAGES_TOKEN }}
           branch: gh-pages
-          folder: dist/fretboard-map
+          folder: dist/fretboard-map/browser
