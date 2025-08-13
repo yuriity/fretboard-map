@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { GuitarFretComponent } from './guitar-fret/guitar-fret.component';
@@ -16,6 +21,7 @@ import { Scale } from '../../../models/scale';
   imports: [CommonModule, MatIconModule, GuitarFretComponent],
   templateUrl: './fretboard.component.html',
   styleUrls: ['./fretboard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FretboardComponent {
   readonly allViewOptions = ViewOptions;
@@ -33,6 +39,4 @@ export class FretboardComponent {
         )
       )
   );
-
-  constructor() {}
 }

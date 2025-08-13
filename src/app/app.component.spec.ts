@@ -1,9 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialog } from '@angular/material/dialog';
-import { of } from 'rxjs';
+import {provideZonelessChangeDetection} from '@angular/core';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {of} from 'rxjs';
 
-import { AppComponent } from './app.component';
-import { SettingsService } from './services/settings.service';
+import {AppComponent} from './app.component';
+import {SettingsService} from './services/settings.service';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -13,21 +14,18 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
-    settingsServiceSpy = jasmine.createSpyObj(
-      'SettingsService',
-      ['addFretboard'],
-      {
-        fretboards: () => [],
-        defaultTuning: 'E4,B3,G3,D3,A2,E2',
-        defaultFretboardViewOption: '24 frets',
-      }
-    );
+    settingsServiceSpy = jasmine.createSpyObj('SettingsService', ['addFretboard'], {
+      fretboards: () => [],
+      defaultTuning: 'E4,B3,G3,D3,A2,E2',
+      defaultFretboardViewOption: '24 frets',
+    });
 
     await TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [
-        { provide: MatDialog, useValue: dialogSpy },
-        { provide: SettingsService, useValue: settingsServiceSpy },
+        provideZonelessChangeDetection(),
+        {provide: MatDialog, useValue: dialogSpy},
+        {provide: SettingsService, useValue: settingsServiceSpy},
       ],
     }).compileComponents();
 
@@ -37,11 +35,13 @@ describe('AppComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).withContext('Component should be created').toBeTruthy();
   });
 
   it('should have correct title', () => {
-    expect(component.title).toBe('Fretboard Map');
+    expect(component.title)
+      .withContext('AppComponent should have correct title')
+      .toBe('Fretboard Map');
   });
 
   it('should open dialog and add fretboard when dialog returns result', () => {
@@ -52,28 +52,38 @@ describe('AppComponent', () => {
     };
     dialogSpy.open.and.returnValue({
       afterClosed: () => of(dialogResult),
-    } as any);
+    } as unknown as MatDialogRef<unknown>);
 
     component.onAddFretboardClick();
 
-    expect(dialogSpy.open).toHaveBeenCalled();
-    expect(settingsServiceSpy.addFretboard).toHaveBeenCalledWith(
-      '1',
-      'New Fretboard',
-      settingsServiceSpy.defaultTuning,
-      'E',
-      'Major Scale',
-      settingsServiceSpy.defaultFretboardViewOption,
-      true
-    );
+    expect(dialogSpy.open)
+      .withContext('Dialog should be opened for adding fretboard')
+      .toHaveBeenCalled();
+    expect(settingsServiceSpy.addFretboard)
+      .withContext('addFretboard should be called with correct arguments')
+      .toHaveBeenCalledWith(
+        '1',
+        'New Fretboard',
+        settingsServiceSpy.defaultTuning,
+        'E',
+        'Major Scale',
+        settingsServiceSpy.defaultFretboardViewOption,
+        true,
+      );
   });
 
   it('should not add fretboard when dialog is cancelled', () => {
-    dialogSpy.open.and.returnValue({ afterClosed: () => of(null) } as any);
+    dialogSpy.open.and.returnValue({
+      afterClosed: () => of(null),
+    } as unknown as MatDialogRef<unknown>);
 
     component.onAddFretboardClick();
 
-    expect(dialogSpy.open).toHaveBeenCalled();
-    expect(settingsServiceSpy.addFretboard).not.toHaveBeenCalled();
+    expect(dialogSpy.open)
+      .withContext('Dialog should be opened for adding fretboard')
+      .toHaveBeenCalled();
+    expect(settingsServiceSpy.addFretboard)
+      .withContext('addFretboard should not be called if dialog is cancelled')
+      .not.toHaveBeenCalled();
   });
 });

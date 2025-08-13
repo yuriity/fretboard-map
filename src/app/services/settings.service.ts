@@ -3,6 +3,7 @@ import {
   EffectRef,
   Injectable,
   Injector,
+  inject,
   signal,
   WritableSignal,
 } from '@angular/core';
@@ -60,12 +61,14 @@ export class SettingsService {
 
   fretboards: WritableSignal<FretboardSettings[]>;
 
-  constructor(private injector: Injector) {
+  private injector = inject(Injector);
+
+  constructor() {
     const appSettings = this.getSettingsFromLocalStorage();
 
     this.fretboards = signal([]);
 
-    appSettings.fretboards.forEach((fretboard) => {
+    appSettings.fretboards.forEach(fretboard => {
       this.addFretboard(
         fretboard.id,
         fretboard.title,
@@ -73,7 +76,7 @@ export class SettingsService {
         fretboard.rootNote,
         fretboard.scale,
         fretboard.viewOption,
-        fretboard.expanded
+        fretboard.expanded,
       );
     });
   }
@@ -85,25 +88,17 @@ export class SettingsService {
     rootNote: string,
     scale: string,
     viewOption: string,
-    expanded: boolean
+    expanded: boolean,
   ): void {
     if (!id || !title || !tuning || !rootNote || !scale || !viewOption) {
       throw new Error('All fretboard fields are required');
     }
 
-    if (
-      this.fretboards().some(
-        (fretboard: FretboardSettings) => fretboard.id === id
-      )
-    ) {
+    if (this.fretboards().some((fretboard: FretboardSettings) => fretboard.id === id)) {
       throw new Error('Fretboard ID must be unique');
     }
 
-    if (
-      this.fretboards().some(
-        (fretboard: FretboardSettings) => fretboard.title() === title
-      )
-    ) {
+    if (this.fretboards().some((fretboard: FretboardSettings) => fretboard.title() === title)) {
       throw new Error('Fretboard title must be unique');
     }
 
@@ -117,7 +112,7 @@ export class SettingsService {
       expanded: signal(expanded),
     };
 
-    this.fretboards.update((fretboards) => [...fretboards, newFretboard]);
+    this.fretboards.update(fretboards => [...fretboards, newFretboard]);
 
     // Effect to save settings when new fretboard properties are updated
     const effectRef = effect(
@@ -130,16 +125,14 @@ export class SettingsService {
         newFretboard.expanded();
         this.saveSettings();
       },
-      { injector: this.injector }
+      {injector: this.injector},
     );
 
     this.effects.set(id, effectRef);
   }
 
   removeFretboard(id: string): void {
-    this.fretboards.update((fretboards) =>
-      fretboards.filter((fretboard) => fretboard.id !== id)
-    );
+    this.fretboards.update(fretboards => fretboards.filter(fretboard => fretboard.id !== id));
     this.effects.get(id)?.destroy();
     this.effects.delete(id);
   }
@@ -147,7 +140,7 @@ export class SettingsService {
   saveSettings(): void {
     console.log('Saving settings');
     this.saveSettingsToLocalStorage({
-      fretboards: this.fretboards().map((fretboard) => ({
+      fretboards: this.fretboards().map(fretboard => ({
         id: fretboard.id,
         title: fretboard.title(),
         tuning: fretboard.tuning(),

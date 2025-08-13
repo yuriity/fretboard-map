@@ -1,16 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import {provideZonelessChangeDetection} from '@angular/core';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {ReactiveFormsModule} from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
-import { RenameFretboardDialogComponent } from './rename-fretboard-dialog.component';
+import {RenameFretboardDialogComponent} from './rename-fretboard-dialog.component';
 
 describe('RenameFretboardDialogComponent', () => {
   let component: RenameFretboardDialogComponent;
   let fixture: ComponentFixture<RenameFretboardDialogComponent>;
-  let dialogRef: jasmine.SpyObj<MatDialogRef<any>>;
+  let dialogRef: jasmine.SpyObj<MatDialogRef<unknown>>;
 
   const mockDialogData = {
     newTitle: 'Test Fretboard',
@@ -29,6 +30,7 @@ describe('RenameFretboardDialogComponent', () => {
         RenameFretboardDialogComponent,
       ],
       providers: [
+        provideZonelessChangeDetection(),
         {
           provide: MatDialogRef,
           useValue: dialogRef,
@@ -46,35 +48,45 @@ describe('RenameFretboardDialogComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).withContext('Component should be created').toBeTruthy();
   });
 
   it('should initialize form control with dialog data', () => {
-    expect(component.titleFormControl.value).toBe('Test Fretboard');
+    expect(component.titleFormControl.value)
+      .withContext('Title form control should be initialized with dialog data')
+      .toBe('Test Fretboard');
   });
 
   it('should validate required field', () => {
     component.titleFormControl.setValue('');
-    expect(component.titleFormControl.hasError('required')).toBeTruthy();
+    expect(component.titleFormControl.hasError('required'))
+      .withContext('Title should be required')
+      .toBeTruthy();
   });
 
   it('should validate unique title', () => {
     component.titleFormControl.setValue('Existing Fretboard');
-    expect(component.titleFormControl.hasError('notUnique')).toBeTruthy();
+    expect(component.titleFormControl.hasError('notUnique'))
+      .withContext('Title should be unique')
+      .toBeTruthy();
   });
 
   it('should accept unique title', () => {
     component.titleFormControl.setValue('New Unique Title');
-    expect(component.titleFormControl.valid).toBeTruthy();
+    expect(component.titleFormControl.valid)
+      .withContext('Unique title should be valid')
+      .toBeTruthy();
   });
 
   it('should close dialog on cancel', () => {
     component.onCancelClick();
-    expect(dialogRef.close).toHaveBeenCalled();
+    expect(dialogRef.close).withContext('Dialog should be closed on cancel').toHaveBeenCalled();
   });
 
   it('should allow unchanged title', () => {
     component.titleFormControl.setValue('Test Fretboard');
-    expect(component.titleFormControl.valid).toBeTruthy();
+    expect(component.titleFormControl.valid)
+      .withContext('Unchanged title should be valid')
+      .toBeTruthy();
   });
 });

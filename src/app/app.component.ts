@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,22 +32,26 @@ import { AddFretboardDialogComponent } from './components/dialogs/add-fretboard-
       margin-top: 1rem;
     }
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
   title = 'Fretboard Map';
   private readonly dialog = inject(MatDialog);
-
-  constructor(public settings: SettingsService) {}
+  protected settings = inject(SettingsService);
 
   onAddFretboardClick(): void {
-    const dialogRef = this.dialog.open(AddFretboardDialogComponent, {
+    const dialogRef = this.dialog.open<
+      AddFretboardDialogComponent,
+      {newTitle: string; usedTitles: string[]},
+      {title: string; rootNoteName: string; scale: string}
+    >(AddFretboardDialogComponent, {
       data: {
         newTitle: 'Fretboard ' + (this.settings.fretboards().length + 1),
-        usedTitles: this.settings.fretboards().map((board) => board.title()),
+        usedTitles: this.settings.fretboards().map(board => board.title()),
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.settings.addFretboard(
           (this.settings.fretboards().length + 1).toString(),
@@ -56,7 +60,7 @@ export class AppComponent {
           result.rootNoteName,
           result.scale,
           this.settings.defaultFretboardViewOption,
-          true
+          true,
         );
       }
     });
