@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {provideZonelessChangeDetection} from '@angular/core';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {of} from 'rxjs';
 
@@ -22,6 +23,7 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [
+        provideZonelessChangeDetection(),
         {provide: MatDialog, useValue: dialogSpy},
         {provide: SettingsService, useValue: settingsServiceSpy},
       ],
@@ -33,11 +35,13 @@ describe('AppComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).withContext('Component should be created').toBeTruthy();
   });
 
   it('should have correct title', () => {
-    expect(component.title).toBe('Fretboard Map');
+    expect(component.title)
+      .withContext('AppComponent should have correct title')
+      .toBe('Fretboard Map');
   });
 
   it('should open dialog and add fretboard when dialog returns result', () => {
@@ -52,16 +56,20 @@ describe('AppComponent', () => {
 
     component.onAddFretboardClick();
 
-    expect(dialogSpy.open).toHaveBeenCalled();
-    expect(settingsServiceSpy.addFretboard).toHaveBeenCalledWith(
-      '1',
-      'New Fretboard',
-      settingsServiceSpy.defaultTuning,
-      'E',
-      'Major Scale',
-      settingsServiceSpy.defaultFretboardViewOption,
-      true,
-    );
+    expect(dialogSpy.open)
+      .withContext('Dialog should be opened for adding fretboard')
+      .toHaveBeenCalled();
+    expect(settingsServiceSpy.addFretboard)
+      .withContext('addFretboard should be called with correct arguments')
+      .toHaveBeenCalledWith(
+        '1',
+        'New Fretboard',
+        settingsServiceSpy.defaultTuning,
+        'E',
+        'Major Scale',
+        settingsServiceSpy.defaultFretboardViewOption,
+        true,
+      );
   });
 
   it('should not add fretboard when dialog is cancelled', () => {
@@ -71,7 +79,11 @@ describe('AppComponent', () => {
 
     component.onAddFretboardClick();
 
-    expect(dialogSpy.open).toHaveBeenCalled();
-    expect(settingsServiceSpy.addFretboard).not.toHaveBeenCalled();
+    expect(dialogSpy.open)
+      .withContext('Dialog should be opened for adding fretboard')
+      .toHaveBeenCalled();
+    expect(settingsServiceSpy.addFretboard)
+      .withContext('addFretboard should not be called if dialog is cancelled')
+      .not.toHaveBeenCalled();
   });
 });

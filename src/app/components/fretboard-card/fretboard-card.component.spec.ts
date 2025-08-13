@@ -1,10 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { signal } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {provideZonelessChangeDetection} from '@angular/core';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {signal} from '@angular/core';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
-import { FretboardCardComponent } from './fretboard-card.component';
-import { FretboardSettings } from '../../models/fretboard-settings';
-import { ViewOptions } from '../../models/view-options';
+import {FretboardCardComponent} from './fretboard-card.component';
+import {FretboardSettings} from '../../models/fretboard-settings';
+import {ViewOptions} from '../../models/view-options';
 
 describe('FretboardCardComponent', () => {
   let component: FretboardCardComponent;
@@ -23,6 +24,7 @@ describe('FretboardCardComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [FretboardCardComponent, NoopAnimationsModule],
+      providers: [provideZonelessChangeDetection()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FretboardCardComponent);
@@ -32,6 +34,6 @@ describe('FretboardCardComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).withContext('Component should be created').toBeTruthy();
   });
 });

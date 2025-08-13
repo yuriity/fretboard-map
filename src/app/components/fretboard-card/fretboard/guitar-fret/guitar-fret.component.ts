@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { GuitarFret } from '../../../../models/guitar-fret';
 
@@ -10,5 +10,5 @@ import { GuitarFret } from '../../../../models/guitar-fret';
   styleUrls: ['./guitar-fret.component.scss'],
 })
 export class GuitarFretComponent {
-  @Input() fret!: GuitarFret;
+  readonly fret = input.required<GuitarFret>();
 }

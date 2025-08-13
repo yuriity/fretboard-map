@@ -1,4 +1,15 @@
+
 # Documentation Structure
+
+## Zoneless Angular & Signals Migration
+
+This project has been migrated to Zoneless Angular using Signals for change detection. For migration details and best practices, see:
+
+- [Angular Zoneless Change Detection (official)](https://angular.dev/reference/change-detection/zoneless)
+- [Angular Signals (official)](https://angular.dev/reference/signals)
+- [Context7 MCP Angular Docs](/angular/angular)
+
+All new development should follow the patterns described in the above resources and in this documentation folder. For architecture, signals, and testing, see the guides in `.github/docs/angular/`.
 
 This directory contains development documentation organized by technology stack.
 
