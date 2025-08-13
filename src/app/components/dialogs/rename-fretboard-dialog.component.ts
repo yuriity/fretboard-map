@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormControl,
   FormsModule,
@@ -19,7 +19,6 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-import { FretboardsAccordionComponent } from '../fretboards-accordion/fretboards-accordion.component';
 
 export interface RenameFretboardDialogData {
   newTitle: string;
@@ -41,15 +40,18 @@ export interface RenameFretboardDialogData {
   ],
   templateUrl: './rename-fretboard-dialog.component.html',
   styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RenameFretboardDialogComponent {
-  readonly dialogRef = inject(MatDialogRef<FretboardsAccordionComponent>);
+  readonly dialogRef = inject(
+    MatDialogRef<RenameFretboardDialogComponent, string | undefined>
+  );
   readonly data = inject<RenameFretboardDialogData>(MAT_DIALOG_DATA);
 
-  titleFormControl = new FormControl(this.data.newTitle, [
-    Validators.required,
-    this.titleUniqueValidator.bind(this),
-  ]);
+  titleFormControl = new FormControl<string>(this.data.newTitle, {
+    nonNullable: true,
+    validators: [Validators.required, this.titleUniqueValidator.bind(this)],
+  });
 
   titleUniqueValidator(control: AbstractControl): ValidationErrors | null {
     const isUnique = !this.data.usedTitles.includes(control.value);

@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SettingsService } from '../../services/settings.service';
 import { RenameFretboardDialogComponent } from '../dialogs/rename-fretboard-dialog.component';
@@ -16,6 +17,7 @@ import { FretboardCardComponent } from '../fretboard-card/fretboard-card.compone
     MatButtonModule,
     MatExpansionModule,
     MatIconModule,
+    MatTooltipModule,
     FretboardCardComponent,
   ],
   templateUrl: './fretboards-accordion.component.html',
@@ -25,23 +27,26 @@ import { FretboardCardComponent } from '../fretboard-card/fretboard-card.compone
       align-items: center;
     }
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FretboardsAccordionComponent {
   readonly dialog = inject(MatDialog);
 
-  constructor(public settings: SettingsService) {}
+  public settings = inject(SettingsService);
 
   openRenameFretboardDialog(fretboard: FretboardSettings): void {
-    const dialogRef = this.dialog.open(RenameFretboardDialogComponent, {
+    const dialogRef = this.dialog.open<
+      RenameFretboardDialogComponent,
+      {newTitle: string; usedTitles: string[]},
+      string
+    >(RenameFretboardDialogComponent, {
       data: {
         newTitle: fretboard.title(),
-        usedTitles: this.settings
-          .fretboards()
-          .map((fretboard) => fretboard.title()),
+        usedTitles: this.settings.fretboards().map(fretboard => fretboard.title()),
       },
     });
 
-    dialogRef.afterClosed().subscribe((newTitle) => {
+    dialogRef.afterClosed().subscribe(newTitle => {
       if (newTitle !== undefined) {
         fretboard.title.set(newTitle);
       }
@@ -49,11 +54,14 @@ export class FretboardsAccordionComponent {
   }
 
   openDeleteFretboardDialog(fretboard: FretboardSettings): void {
-    const dialogRef = this.dialog.open(DeleteFretboardDialogComponent, {
-      data: { title: fretboard.title() },
-    });
+    const dialogRef = this.dialog.open<DeleteFretboardDialogComponent, {title: string}, boolean>(
+      DeleteFretboardDialogComponent,
+      {
+        data: {title: fretboard.title()},
+      },
+    );
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
         this.settings.removeFretboard(fretboard.id);
       }

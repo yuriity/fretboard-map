@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { signal } from '@angular/core';
@@ -54,7 +54,7 @@ describe('FretboardAccordionComponent', () => {
     const fretboard = settingsServiceSpy.fretboards()[0];
     dialogSpy.open.and.returnValue({
       afterClosed: () => of('New Title'),
-    } as any);
+    } as unknown as MatDialogRef<unknown>);
 
     component.openRenameFretboardDialog(fretboard);
 
@@ -64,7 +64,7 @@ describe('FretboardAccordionComponent', () => {
 
   it('should open delete dialog and remove fretboard when confirmed', () => {
     const fretboard = settingsServiceSpy.fretboards()[0];
-    dialogSpy.open.and.returnValue({ afterClosed: () => of(true) } as any);
+  dialogSpy.open.and.returnValue({afterClosed: () => of(true)} as unknown as MatDialogRef<unknown>);
 
     component.openDeleteFretboardDialog(fretboard);
 
@@ -74,7 +74,9 @@ describe('FretboardAccordionComponent', () => {
 
   it('should not remove fretboard when delete is cancelled', () => {
     const fretboard = settingsServiceSpy.fretboards()[0];
-    dialogSpy.open.and.returnValue({ afterClosed: () => of(false) } as any);
+    dialogSpy.open.and.returnValue({
+      afterClosed: () => of(false),
+    } as unknown as MatDialogRef<unknown>);
 
     component.openDeleteFretboardDialog(fretboard);
 

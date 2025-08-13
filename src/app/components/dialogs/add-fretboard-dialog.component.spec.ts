@@ -11,7 +11,7 @@ import { AddFretboardDialogComponent } from './add-fretboard-dialog.component';
 describe('AddFretboardDialogComponent', () => {
   let component: AddFretboardDialogComponent;
   let fixture: ComponentFixture<AddFretboardDialogComponent>;
-  let dialogRef: jasmine.SpyObj<MatDialogRef<any>>;
+  let dialogRef: jasmine.SpyObj<MatDialogRef<unknown>>;
 
   const mockDialogData = {
     newTitle: 'Test Fretboard',

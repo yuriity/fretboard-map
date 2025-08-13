@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -21,7 +21,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NoteNames } from '../../models/notes';
 import { ScaleFormulas } from '../../models/scale-formulas';
-import { AppComponent } from '../../app.component';
 
 export interface CreateFretboardDialogData {
   newTitle: string;
@@ -53,21 +52,33 @@ export interface CreateFretboardDialogData {
       width: 100%;
     }
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddFretboardDialogComponent {
-  readonly dialogRef = inject(MatDialogRef<AppComponent>);
+  readonly dialogRef = inject(
+    MatDialogRef<
+      AddFretboardDialogComponent,
+      { title: string; rootNoteName: string; scale: string } | undefined
+    >
+  );
   readonly data = inject<CreateFretboardDialogData>(MAT_DIALOG_DATA);
 
-  titleFormControl = new FormControl(this.data.newTitle, [
-    Validators.required,
-    this.titleUniqueValidator.bind(this),
-  ]);
+  titleFormControl = new FormControl<string>(this.data.newTitle, {
+    nonNullable: true,
+    validators: [Validators.required, this.titleUniqueValidator.bind(this)],
+  });
 
   readonly noteNames = Array.from(NoteNames);
   readonly scaleNames = Object.keys(ScaleFormulas);
 
-  rootNoteControl = new FormControl('C', [Validators.required]);
-  scaleControl = new FormControl(this.scaleNames[0], [Validators.required]);
+  rootNoteControl = new FormControl<string>('C', {
+    nonNullable: true,
+    validators: [Validators.required],
+  });
+  scaleControl = new FormControl<string>(this.scaleNames[0], {
+    nonNullable: true,
+    validators: [Validators.required],
+  });
 
   get dialogResult() {
     return {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -8,8 +8,6 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-
-import { FretboardsAccordionComponent } from '../fretboards-accordion/fretboards-accordion.component';
 
 export interface DeleteFretboardDialogData {
   title: string;
@@ -27,9 +25,12 @@ export interface DeleteFretboardDialogData {
   ],
   templateUrl: './delete-fretboard-dialog.component.html',
   styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeleteFretboardDialogComponent {
-  readonly dialogRef = inject(MatDialogRef<FretboardsAccordionComponent>);
+  readonly dialogRef = inject(
+    MatDialogRef<DeleteFretboardDialogComponent, boolean>
+  );
   readonly data = inject<DeleteFretboardDialogData>(MAT_DIALOG_DATA);
 
   onCancelClick(): void {

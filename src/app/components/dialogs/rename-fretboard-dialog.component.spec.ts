@@ -10,7 +10,7 @@ import { RenameFretboardDialogComponent } from './rename-fretboard-dialog.compon
 describe('RenameFretboardDialogComponent', () => {
   let component: RenameFretboardDialogComponent;
   let fixture: ComponentFixture<RenameFretboardDialogComponent>;
-  let dialogRef: jasmine.SpyObj<MatDialogRef<any>>;
+  let dialogRef: jasmine.SpyObj<MatDialogRef<unknown>>;
 
   const mockDialogData = {
     newTitle: 'Test Fretboard',

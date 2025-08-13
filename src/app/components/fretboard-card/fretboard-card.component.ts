@@ -1,12 +1,12 @@
 import { Component, input } from '@angular/core';
 
 import { FretboardSettings } from '../../models/fretboard-settings';
-import { FretbordToolbarComponent } from './fretbord-toolbar/fretbord-toolbar.component';
+import { FretboardToolbarComponent } from './fretboard-toolbar/fretboard-toolbar.component';
 import { FretboardComponent } from './fretboard/fretboard.component';
 
 @Component({
   selector: 'fbm-fretboard-card',
-  imports: [FretbordToolbarComponent, FretboardComponent],
+  imports: [FretboardToolbarComponent, FretboardComponent],
   templateUrl: './fretboard-card.component.html',
   styles: ``,
 })

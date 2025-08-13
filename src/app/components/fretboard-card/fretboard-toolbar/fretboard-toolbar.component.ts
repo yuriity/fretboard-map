@@ -10,7 +10,7 @@ import { FretboardSettings } from '../../../models/fretboard-settings';
 import { ScaleFormulas } from '../../../models/scale-formulas';
 
 @Component({
-  selector: 'fbm-fretbord-toolbar',
+  selector: 'fbm-fretboard-toolbar',
   imports: [
     MatButtonModule,
     MatIconModule,
@@ -18,7 +18,7 @@ import { ScaleFormulas } from '../../../models/scale-formulas';
     MatSelectModule,
     MatFormFieldModule,
   ],
-  templateUrl: './fretbord-toolbar.component.html',
+  templateUrl: './fretboard-toolbar.component.html',
   styles: `
     .controls-container {
       display: flex;
@@ -40,7 +40,7 @@ import { ScaleFormulas } from '../../../models/scale-formulas';
     }
   `,
 })
-export class FretbordToolbarComponent {
+export class FretboardToolbarComponent {
   fretboard = input.required<FretboardSettings>();
 
   readonly notes = ChromaticScale.slice(0, 12);

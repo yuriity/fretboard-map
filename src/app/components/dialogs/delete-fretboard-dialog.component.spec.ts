@@ -7,7 +7,7 @@ import { DeleteFretboardDialogComponent } from './delete-fretboard-dialog.compon
 describe('DeleteFretboardDialogComponent', () => {
   let component: DeleteFretboardDialogComponent;
   let fixture: ComponentFixture<DeleteFretboardDialogComponent>;
-  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<any>>;
+  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<unknown>>;
 
   beforeEach(async () => {
     dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['close']);

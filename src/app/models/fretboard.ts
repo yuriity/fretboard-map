@@ -7,13 +7,11 @@ export class Fretboard {
   readonly strings: GuitarString[];
 
   constructor(startingNotes: Note[], scale: Scale, freatsAmount = 24) {
-    this.strings = new Array();
-    for (let i = 0; i < startingNotes.length; i++) {
-      const frets = new Array();
+    this.strings = [];
+    for (const startingNote of startingNotes) {
+      const frets = [];
       const startingNoteIndex = ChromaticScale.findIndex(
-        (note) =>
-          note.name === startingNotes[i].name &&
-          note.octave === startingNotes[i].octave
+        note => note.name === startingNote.name && note.octave === startingNote.octave,
       );
 
       for (let j = 0; j < freatsAmount + 1; j++) {
@@ -44,15 +42,15 @@ export class Fretboard {
         frets.push(newFret);
       }
 
-      this.strings.push({ id: this.strings.length, frets: frets });
+      this.strings.push({id: this.strings.length, frets: frets});
     }
   }
 
   updateFretboard(scale: Scale) {
-    for (let i = 0; i < this.strings.length; i++) {
-      for (let j = 0; j < this.strings[i].frets.length; j++) {
-        const note = this.strings[i].frets[j].note;
-        this.strings[i].frets[j].noteState = scale.getNoteState(note);
+    for (const string of this.strings) {
+      for (const fret of string.frets) {
+        const note = fret.note;
+        fret.noteState = scale.getNoteState(note);
       }
     }
   }

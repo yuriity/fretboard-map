@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialog } from '@angular/material/dialog';
-import { of } from 'rxjs';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {of} from 'rxjs';
 
-import { AppComponent } from './app.component';
-import { SettingsService } from './services/settings.service';
+import {AppComponent} from './app.component';
+import {SettingsService} from './services/settings.service';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -13,21 +13,17 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
-    settingsServiceSpy = jasmine.createSpyObj(
-      'SettingsService',
-      ['addFretboard'],
-      {
-        fretboards: () => [],
-        defaultTuning: 'E4,B3,G3,D3,A2,E2',
-        defaultFretboardViewOption: '24 frets',
-      }
-    );
+    settingsServiceSpy = jasmine.createSpyObj('SettingsService', ['addFretboard'], {
+      fretboards: () => [],
+      defaultTuning: 'E4,B3,G3,D3,A2,E2',
+      defaultFretboardViewOption: '24 frets',
+    });
 
     await TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [
-        { provide: MatDialog, useValue: dialogSpy },
-        { provide: SettingsService, useValue: settingsServiceSpy },
+        {provide: MatDialog, useValue: dialogSpy},
+        {provide: SettingsService, useValue: settingsServiceSpy},
       ],
     }).compileComponents();
 
@@ -52,7 +48,7 @@ describe('AppComponent', () => {
     };
     dialogSpy.open.and.returnValue({
       afterClosed: () => of(dialogResult),
-    } as any);
+    } as unknown as MatDialogRef<unknown>);
 
     component.onAddFretboardClick();
 
@@ -64,12 +60,14 @@ describe('AppComponent', () => {
       'E',
       'Major Scale',
       settingsServiceSpy.defaultFretboardViewOption,
-      true
+      true,
     );
   });
 
   it('should not add fretboard when dialog is cancelled', () => {
-    dialogSpy.open.and.returnValue({ afterClosed: () => of(null) } as any);
+    dialogSpy.open.and.returnValue({
+      afterClosed: () => of(null),
+    } as unknown as MatDialogRef<unknown>);
 
     component.onAddFretboardClick();
 

@@ -1,4 +1,4 @@
-export const ScaleFormulas: { [key: string]: number[] | null } = {
+export const ScaleFormulas: Record<string, number[] | null> = {
   'Chromatic Scale': null,
   'Major Scale': [2, 2, 1, 2, 2, 2, 1],
   'Minor Scale': [2, 1, 2, 2, 1, 2, 2],
