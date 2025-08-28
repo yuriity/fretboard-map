@@ -1,8 +1,8 @@
 $border-color: grey;
-$border-color-dim: dimgrey;
+$border-color-dim: #B0BEC5;
 $background-color: #f8f9fa;
-$active-note-background: #74EBD5;
-$root-note-background: #FFBBEC;
+$active-note-background: #B2EBF2;
+$root-note-background: #FFF9C4;
 
 div.fret-container {
   position: relative;
@@ -63,7 +63,7 @@ div.note-mark {
   justify-content: center;
 
   width: 24px;
-    height: 24px;
+  height: 24px;
   margin: 4px;
 
   border: 2px solid #666;
